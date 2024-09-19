@@ -7,10 +7,7 @@ import br.edu.ifpr.lista.modelo.PessoaJuridica;
 import br.edu.ifpr.lista.modelo.Endereco;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ public class Principal {
     public static void main(String[] args) {
         ArrayList<Pessoa> listPF = new ArrayList<Pessoa>();
         ArrayList<Pessoa> listPJ = new ArrayList<Pessoa>();
+
 
         // Cria uma lista com 5 pessoas fisicas
         for(int i = 0; i < 5; i++){
@@ -63,6 +61,7 @@ public class Principal {
             botao.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = new JFrame();
+                    JFormattedTextField limit = new JFormattedTextField(12);
 
                     frame.setTitle("Cadastro de Pessoa fisica");
                     frame.setSize(500,500);
@@ -74,11 +73,15 @@ public class Principal {
                     JLabel labelNome = new JLabel("Nome: "); // indica onde e pra por o nome
                     labelNome.setBounds(35,25,250,20);
 
-                    JTextField cpf = new JTextField("teste cpf"); // Adiciona a caixa pra por o CPF bruto
+
+
+                    JTextField cpf = new JTextField(); // Adiciona a caixa pra por o CPF bruto
                     cpf.setBounds(75,50,250,20);
                     cpf.addFocusListener(new FocusAdapter() {
                         public void focusLost(FocusEvent e) {
-                            cpf.setText(Utils.formatCPF(cpf.getText()));
+                            if (cpf.getText().length() > 11) {
+                                cpf.setText(cpf.getText().substring(0,11));
+                            }
                         }
                     });
                     JLabel labelCpf = new JLabel("CPF: ");
@@ -90,11 +93,13 @@ public class Principal {
                     JLabel labelRua = new JLabel("Rua: ");
                     labelRua.setBounds(45,90,250,20);
 
-                    JTextField CEP = new JTextField();
+                    JTextField CEP = new JTextField(8);
                     CEP.setBounds(75,250,80,20);
                     CEP.addFocusListener(new FocusAdapter() {
                         public void focusLost(FocusEvent e) {
-                            CEP.setText(Utils.formatCEP(CEP.getText()));
+                            if (CEP.getText().length() > 8) {
+                                CEP.setText(CEP.getText().substring(0,8));
+                            }
                         }
                     });
                     JLabel labelCEP = new JLabel("CEP: ");
@@ -129,6 +134,7 @@ public class Principal {
                     frame.add(labelRua);
                     frame.add(submit);
                     frame.add(resultado);
+                    frame.add(limit);
 
                     frame.setVisible(true);
 
